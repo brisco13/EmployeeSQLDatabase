@@ -143,7 +143,7 @@ function viewRoles() {
 }
 function viewEmps() {
   console.log("viewEmps played")
-  let criteria = "SELECT employee.id AS ID, employee.first_name AS FirstName, employee.last_name AS LastName, employee.role_id AS Title, employee.manager_id AS ReportsTo FROM employee"
+  let criteria = "SELECT employee.id AS ID, employee.first_name AS FirstName, employee.last_name AS LastName, role.title AS Title, department.dept_name AS Department , role.salary AS Salary, CONCAT(manager.first_name, manager.last_name) AS Manager FROM employee JOIN role ON employee.role_id = role.id JOIN department on role.dept_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;"
   db.query(criteria, function(err,res) {
     if (err) throw err;
     console.log('\n')

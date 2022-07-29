@@ -48,8 +48,8 @@ VALUES
     ("Chris", "Bailey", 13, 16),
     ("Vince", "Alban", 14, 16),
     ("Wanda", "Powers", 15, 16),
-    ("Carter", "Butler", 17, NULL),
-    ("Slade", "Sylvester", 18, NULL),
-    ("Robin", "Davidson", 19, NULL),
-    ("Jordan", "Rodgers", 20, NULL),
-    ("Bubbles", "Barlow", 16, NULL);
+    ("Carter ", "Butler", 17, NULL),
+    ("Slade ", "Sylvester", 18, NULL),
+    ("Robin ", "Davidson", 19, NULL),
+    ("Jordan ", "Rodgers", 20, NULL),
+    ("Bubbles ", "Barlow", 16, NULL);
