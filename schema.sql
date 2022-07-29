@@ -1,8 +1,10 @@
+-- delete if exists
 DROP DATABASE IF EXISTS employee_db;
+-- make database
 CREATE DATABASE employee_db;
-
+-- select database
 USE employee_db;
-
+-- create tables
 CREATE TABLE department(
   id INT AUTO_INCREMENT PRIMARY KEY,
   dept_name VARCHAR(30) NOT NULL
