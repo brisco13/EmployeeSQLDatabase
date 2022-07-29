@@ -2,7 +2,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const dotenv = require('dotenv');
-const decide = require('./helpers/helpers.js')
+const table = require('console.table');
 
 require('dotenv').config();
 
@@ -123,13 +123,33 @@ function decide (res) {
 }
 
 function viewDepts() {
-  db.query("SELECT * FROM department");
+  let criteria = "SELECT department.id AS ID, department.dept_name AS Department FROM department"
+  db.query(criteria, function(err,res) {
+    if (err) throw err;
+    console.log('\n')
+    console.table(res);
+    console.log('Please press an arrow key to return to the menu.\n\n\n\n\n\n\n')
+  });
 }
 function viewRoles() {
   console.log("viewRoles played")
+  let criteria = "SELECT role.id AS ID, role.title AS Title, role.salary AS Salary, department.dept_name AS Department FROM role JOIN department ON role.dept_id = department.id"
+  db.query(criteria, function(err,res) {
+    if (err) throw err;
+    console.log('\n')
+    console.table(res);
+    console.log('Please press an arrow key to return to the menu.\n\n\n\n\n\n\n')
+  });
 }
 function viewEmps() {
   console.log("viewEmps played")
+  let criteria = "SELECT employee.id AS ID, employee.first_name AS FirstName, employee.last_name AS LastName, employee.role_id AS Title, employee.manager_id AS ReportsTo FROM employee"
+  db.query(criteria, function(err,res) {
+    if (err) throw err;
+    console.log('\n')
+    console.table(res);
+    console.log('Please press an arrow key to return to the menu.\n\n\n\n\n\n\n')
+  });
 }
 function addDepts() {
   console.log("addDepts played")
