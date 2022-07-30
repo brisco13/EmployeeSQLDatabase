@@ -56,7 +56,7 @@ const db = mysql.createConnection(
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   },
-  console.log("successfully connected to employee_db.")
+  console.log("\nSuccessfully connected to employee_db!\n")
 );
 
 function startDB() {
@@ -163,7 +163,7 @@ function addDepts() {
         const add = "INSERT INTO department SET ?"
         db.query(add,res, function(err,res1){
         if (err) throw err;
-        console.log(`Successful Add!`)
+        console.log(`Successfully Added new department!`)
         navDB();
       })
       })
@@ -204,7 +204,7 @@ function addRole() {
         const add = "INSERT INTO role SET ?"
         db.query(add, role, function(err,res2){
         if (err) throw err;
-        console.log(`Successful Add!`)
+        console.log(`Successfully Added new role!`)
         navDB();
         })
         })
@@ -274,7 +274,7 @@ function addEmp() {
       const add = "INSERT INTO employee SET ?"
       db.query(add, emp, function(err,res2){
       if (err) throw err;
-      console.log(`Successful Add!`)
+      console.log(`Successfully Added a new team member!`)
       navDB();
       })
       })
@@ -284,6 +284,51 @@ function addEmp() {
 
 
 function updRole() {
-  console.log("updRole played")
-  navDB();
+  let emp_list = []; let emp_index = [];
+  let role_list = []; let role_index = [];
+  q = "SELECT * FROM employee"
+  db.query(q, function(err,res2){
+    if (err) throw err;
+    res2.forEach(each => {
+      const text = `${each.last_name}, ${each.first_name}`;
+      const ind = parseInt(each.id);
+      emp_list.push(text);
+      emp_index.push(ind);
+    });
+    q3 = "SELECT role.id AS id, role.title AS title FROM role"
+  db.query(q3, function(err,res3){
+    if (err) throw err;
+    res3.forEach(each => {
+      const text = each.title;
+      const ind = parseInt(each.id);
+      role_list.push(text);
+      role_index.push(ind);
+    });
+
+  inquirer.prompt([
+    { 
+      type: 'list',
+      name: 'emp',
+      message: `Which employee's role would you like to update?`,
+      choices: emp_list
+    },
+    { 
+      type: 'list',
+      name: 'role',
+      message: 'What is the new role of this employee?',
+      choices: role_list
+    }    
+  ]).then((res) =>{
+      let role_new = role_index[role_list.indexOf(res.role)];
+      let employ = emp_index[emp_list.indexOf(res.emp)];
+
+      const add = `UPDATE employee SET role_id = ${role_new} WHERE id = ${employ}`
+      db.query(add, function(err,res2){
+      if (err) throw err;
+      console.log(`Successfully updated role!`)
+      navDB();
+      })
+      })
+    })
+  })
 }
