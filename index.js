@@ -195,7 +195,6 @@ function addRole() {
       },
     ])
     .then((res) => {
-      console.log(`res = %j`, res);
       let title = res.new_Role;
       let comp = res.new_Money;
       let dept = res.new_Dept;
