@@ -108,7 +108,7 @@ function decide (res) {
       case 'addRole':
           addRole()
           break;
-      case 'addEmp()':
+      case 'addEmp':
           addEmp()
           break;
       case 'updRole':
@@ -212,9 +212,77 @@ function addRole() {
   }
 
 function addEmp() {
-  console.log("addEmp played")
-  navDB();
+  let mang_list = []; let mang_index = [];
+  let role_list = []; let role_index = [];
+  q = "SELECT * FROM employee WHERE employee.manager_id IS NULL"
+  db.query(q, function(err,res2){
+    if (err) throw err;
+    res2.forEach(each => {
+      const text = `${each.first_name}${each.last_name}`;
+      const ind = parseInt(each.id);
+      mang_list.push(text);
+      mang_index.push(ind);
+    });
+    q3 = "SELECT role.id AS id, role.title AS title FROM role"
+  db.query(q3, function(err,res3){
+    if (err) throw err;
+    res3.forEach(each => {
+      const text = each.title;
+      const ind = parseInt(each.id);
+      role_list.push(text);
+      role_index.push(ind);
+    });
+
+  inquirer.prompt([
+    { 
+      type: 'input',
+      name: 'first',
+      message: 'What is the first name of the new employee?'
+    },
+    { 
+      type: 'input',
+      name: 'last',
+      message: 'What is the last name of the new employee?'
+    },
+    { 
+      type: 'list',
+      name: 'role',
+      message: 'What is the role of the new employee?',
+      choices: role_list
+    },
+    { 
+      type: 'list',
+      name: 'manager',
+      message: 'What is the role of the new employee?',
+      choices: mang_list
+    }
+  ]).then((res) =>{
+      console.log(`res = %j`,res)
+      let first = res.first;
+      let last = res.last;
+      let role_new = role_index[role_list.indexOf(res.role)];
+      let manager = mang_index[mang_list.indexOf(res.manager)];
+
+      let emp = {
+        first_name: first,
+        last_name: last,
+        role_id: role_new,
+        manager_id: manager
+      }
+      console.log(`emp = %j`,emp)
+
+      const add = "INSERT INTO employee SET ?"
+      db.query(add, emp, function(err,res2){
+      if (err) throw err;
+      console.log(`Successful Add!`)
+      navDB();
+      })
+      })
+    })
+  })
 }
+
+
 function updRole() {
   console.log("updRole played")
   navDB();
